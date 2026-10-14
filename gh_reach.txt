@@ -1,0 +1,2 @@
+﻿github.com direct: 000
+api.github.com direct: 200

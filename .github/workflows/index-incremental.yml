@@ -1,6 +1,7 @@
-# HoodScope — scheduled incremental indexer
-# Runs every 5 minutes on the default branch (public repos: free, no limits).
-# Pipeline: npm ci → node scripts/index.js → upload SQLite to R2/S3 (optional).
+# HoodScope — scheduled incremental indexer (serverless data pipeline)
+# Every 5 min: download last DBs from R2 → incremental index → export snapshot →
+# upload hoodscope.db + pons.db + snapshot.json back to R2.
+# Vercel functions read these artifacts from the R2 public bucket.
 name: index-incremental
 
 on:
@@ -19,6 +20,8 @@ jobs:
   index:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      RPC_URL: ${{ secrets.RPC_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -30,20 +33,48 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Run incremental indexer
+      - name: Download previous databases (optional, enables incremental)
         env:
-          RPC_URL: ${{ secrets.RPC_URL }}
+          R2_PUBLIC_URL: ${{ secrets.R2_PUBLIC_URL }}
+        run: |
+          mkdir -p data
+          if [ -n "$R2_PUBLIC_URL" ]; then
+            curl -fsSL "$R2_PUBLIC_URL/hoodscope.db" -o data/hoodscope.db || echo "::warning::no previous hoodscope.db — starting fresh"
+            curl -fsSL "$R2_PUBLIC_URL/pons.db" -o data/pons.db || echo "::warning::no previous pons.db — starting fresh"
+          fi
+
+      - name: Incremental index (stock tokens)
+        env:
           HOODSCOPE_DB: data/hoodscope.db
           PREMIUM_THRESHOLD: '2'
         run: npm run index
 
-      - name: Upload SQLite to object storage (optional)
-        if: env.R2_ENDPOINT != ''
+      - name: Incremental Pons index (from persisted cursor)
+        env:
+          PONS_DB: data/pons.db
+          PONS_CHUNK: '20000'
+        run: node scripts/pons_backfill.js || echo "::warning::pons incremental skipped"
+
+      - name: Export snapshot.json
+        env:
+          HOODSCOPE_DB: data/hoodscope.db
+        run: node scripts/export_snapshot.js
+
+      - name: Upload to R2
         env:
           R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
         run: |
-          npm ci --omit=dev --prefix mcp-server 2>/dev/null || true
-          node scripts/upload_db.js || echo "::warning::DB upload skipped (configure R2_ENDPOINT + keys to enable)"
+          if [ -z "$R2_ENDPOINT" ] || [ -z "$R2_BUCKET" ]; then
+            echo "::warning::R2 upload skipped — set R2_ENDPOINT + R2_BUCKET + keys to enable"
+            exit 0
+          fi
+          aws configure set aws_access_key_id "$R2_ACCESS_KEY_ID"
+          aws configure set aws_secret_access_key "$R2_SECRET_ACCESS_KEY"
+          aws configure set region auto
+          aws --endpoint-url "$R2_ENDPOINT" s3 cp data/hoodscope.db "s3://$R2_BUCKET/hoodscope.db" || exit 1
+          aws --endpoint-url "$R2_ENDPOINT" s3 cp data/pons.db "s3://$R2_BUCKET/pons.db" || exit 1
+          aws --endpoint-url "$R2_ENDPOINT" s3 cp data/snapshot.json "s3://$R2_BUCKET/snapshot.json" --content-type application/json || exit 1
+          echo "uploaded: hoodscope.db pons.db snapshot.json"

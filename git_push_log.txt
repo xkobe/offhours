@@ -1,0 +1,8 @@
+﻿git : fatal: unable to access 'https://github.com/xkobe/offhours.git/': Failed to connect to github.com port 443 after 
+21144 ms: Could not connect to server
+所在位置 行:2 字符: 1
++ git push -u origin master 2>&1 | Out-File "git_push_log.txt" -Encodin ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: unable t...nnect to server:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

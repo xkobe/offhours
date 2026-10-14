@@ -1,0 +1,5 @@
+﻿=== git global proxy ===
+=== common proxy ports listening ===
+=== env proxies ===
+HTTP_PROXY=
+HTTPS_PROXY=

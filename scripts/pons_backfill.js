@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const { fetchRange, blockTimestamps, initDb, ingest, rpc, sleep } = require('../lib/pons_indexer');
 
-const DB = path.join(__dirname, '..', 'data', 'pons.db');
+const DB = process.env.PONS_DB || path.join(__dirname, '..', 'data', 'pons.db');
 const START = 39600000;
 const CHUNK = Number(process.env.PONS_CHUNK || 20000);
 

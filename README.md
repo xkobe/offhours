@@ -101,6 +101,34 @@ cd mcp-server && npm install && npm run mcp
 | `ANCHOR_REGISTRY_ADDRESS` | Deployed AnchorRegistry for `evidence_verify` | — |
 | `HOODSCOPE_DB` | SQLite database path | `data/hoodscope.db` |
 
+## Deploy on Vercel (serverless)
+
+Vercel has no persistent disk, so the write path lives in GitHub Actions and
+the read path lives in Vercel functions:
+
+```
+GitHub Actions (every 5 min)            Vercel (functions)
+  download last DBs ──► R2 ◄────────────   /api/* reads R2 (cached in /tmp)
+  incremental index                        static site from /public
+  export snapshot.json ──► R2
+  upload DBs + snapshot.json ──► R2
+```
+
+What to set:
+
+- **Repo secrets** (GitHub → Settings → Secrets):
+  `RPC_URL`, `R2_ENDPOINT`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`,
+  `R2_BUCKET`, `R2_PUBLIC_URL`
+- **Vercel env** (Project → Settings → Environment Variables):
+  `R2_PUBLIC_BASE` (e.g. `https://pub-xxxx.r2.dev`)
+- Create a Cloudflare R2 bucket, make it public, and generate an R2 API token
+  (Object Read & Write) — free tier covers 10 GB / 1M reads.
+
+The first Actions run starts from an empty DB and backfills over time; to seed
+history immediately, upload your existing `data/hoodscope.db` + `data/pons.db`
+to the bucket once. Vercel functions fall back to local SQLite when
+`R2_PUBLIC_BASE` is unset (dev mode).
+
 ## MCP tools & pricing (USDG on eip155:4663)
 
 | Tool | Input | Output | Price |

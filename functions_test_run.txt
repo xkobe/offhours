@@ -1,0 +1,12 @@
+﻿200 1502ms /api/snapshot tokens=194 market=hours
+200 12ms /api/history?symbol=NVDA&days=7 rows=1
+200 15ms /api/events?symbol=NVDA&days=7 events=0
+200 794ms /api/token-info?symbol=NVDA supply=80,228.2694
+200 19ms /api/report?symbol=NVDA hash=b4891fc5754e67f6
+200 6ms /api/evidence?hash=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa cid=QmQmZprxSLAF status=not_configured
+200 14ms /api/refresh msg=refresh runs via GitHub Actions (index-i
+200 5162ms /api/pons/stats?period=day&limit=7 total=642326 graduated=9820
+200 6271ms /api/pons/near?limit=5&days=14 near=0
+200 17ms /api/pons/watch?token=0x7ed598bcef8bd9edd8c97a195c6d13f40801ec7e msg=
+400 16ms /api/history rows=0
+400 15ms /api/evidence?hash=zz msg=hash must be 64 hex chars

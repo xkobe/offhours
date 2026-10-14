@@ -967,9 +967,13 @@
     var btn = $('refreshBtn');
     btn.disabled = true; btn.textContent = 'Refreshing…';
     fetch('/api/refresh').then(function (r) { return r.json(); }).then(function (res) {
-      if (!res.ok) throw new Error(res.detail || 'refresh failed');
+      if (!res.ok) {
+        if (res.note) { showError(res.note); return Promise.resolve({ __skip: true }); }
+        throw new Error(res.detail || 'refresh failed');
+      }
       return load();
     }).then(function (s) {
+      if (s && s.__skip) return;
       state.prevSnap = state.snap;
       state.snap = s;
       renderAll();

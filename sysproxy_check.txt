@@ -1,0 +1,4 @@
+﻿ProxyEnable: 1
+ProxyServer: 127.0.0.1:7897
+AutoConfigURL: 
+DefaultConnectionSettings present: True

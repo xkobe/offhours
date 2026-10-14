@@ -5,6 +5,7 @@ node_modules/
 data/*.db
 data/*.db-*
 data/*.sqlite*
+data/snapshot.json
 
 # logs & scratch output
 *.log

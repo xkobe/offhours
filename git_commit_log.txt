@@ -1,0 +1,173 @@
+﻿git : warning: in the working copy of '.env.example', LF will be replaced by CRLF the next time Git touches it
+所在位置 行:2 字符: 1
++ git add -A 2>&1 | Out-File "git_commit_log.txt" -Encoding utf8
++ ~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (warning: in the... Git touches it:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: in the working copy of '.github/workflows/index-backfill.yml', LF will be replaced by CRLF the next time Git t
+ouches it
+warning: in the working copy of '.github/workflows/index-incremental.yml', LF will be replaced by CRLF the next time Gi
+t touches it
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'LICENSE', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'contracts/AnchorRegistry.sol', LF will be replaced by CRLF the next time Git touches i
+t
+warning: in the working copy of 'docs/x402.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lib/alerts.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lib/data.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lib/events.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lib/pons_indexer.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lib/pons_stats.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lib/report.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lib/store.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lib/telegram.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lib/verify.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcp-server/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcp-server/index.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcp-server/lib/x402.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcp-server/package-lock.json', LF will be replaced by CRLF the next time Git touches i
+t
+warning: in the working copy of 'mcp-server/package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcp-server/probe_usdg.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcp-server/smoke_x402.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcp-server/test_x402.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'mcp-server/test_x402_out.txt', LF will be replaced by CRLF the next time Git touches i
+t
+warning: in the working copy of 'mcp-server/usdg_probe_out.txt', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'public/app.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'public/index.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'public/styles.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/api_check.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/append_tm_css.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/compile_anchor.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/debug_pool.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/deploy_anchor.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/explore2.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/explore3.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/explore4.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/explore_feeds.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/explore_hoodchain.js', LF will be replaced by CRLF the next time Git touches i
+t
+warning: in the working copy of 'scripts/index.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/inspect_history.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/inspect_token_info.js', LF will be replaced by CRLF the next time Git touches 
+it
+warning: in the working copy of 'scripts/linkcheck.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/patch_events_filter.ps1', LF will be replaced by CRLF the next time Git touche
+s it
+warning: in the working copy of 'scripts/patch_mcp_pons.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/patch_nav.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/patch_near_note.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/patch_pons_css.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/patch_pons_front.js.ps1', LF will be replaced by CRLF the next time Git touche
+s it
+warning: in the working copy of 'scripts/patch_section.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/patch_tm.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/patch_tm_chart.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/pipeline_full.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/pipeline_test.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/pons_backfill.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/pons_first.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/pons_probe.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/pons_test_small.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/q_rhj.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/q_wyfi.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/rpc_diag.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/rpc_v2.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/rpc_verify.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/rpc_verify2.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/smoke_alerts.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/test_alerts.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/test_data.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/test_mcp.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/test_store.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/test_verify.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/upload_db.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scripts/verify_wyfi.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server.js', LF will be replaced by CRLF the next time Git touches it
+[master (root-commit) b3e0ec2] feat: HoodScope — Stock Token premium intelligence (full PRD implementation)
+ 78 files changed, 15108 insertions(+)
+ create mode 100644 .env.example
+ create mode 100644 .github/workflows/index-backfill.yml
+ create mode 100644 .github/workflows/index-incremental.yml
+ create mode 100644 .gitignore
+ create mode 100644 LICENSE
+ create mode 100644 README.md
+ create mode 100644 contracts/AnchorRegistry.sol
+ create mode 100644 docs/x402.md
+ create mode 100644 git_commit_log.txt
+ create mode 100644 lib/alerts.js
+ create mode 100644 lib/data.js
+ create mode 100644 lib/events.js
+ create mode 100644 lib/pons_indexer.js
+ create mode 100644 lib/pons_stats.js
+ create mode 100644 lib/report.js
+ create mode 100644 lib/store.js
+ create mode 100644 lib/telegram.js
+ create mode 100644 lib/verify.js
+ create mode 100644 mcp-server/README.md
+ create mode 100644 mcp-server/index.js
+ create mode 100644 mcp-server/lib/x402.js
+ create mode 100644 mcp-server/npm_install_x402.txt
+ create mode 100644 mcp-server/package-lock.json
+ create mode 100644 mcp-server/package.json
+ create mode 100644 mcp-server/probe_usdg.js
+ create mode 100644 mcp-server/smoke_x402.js
+ create mode 100644 mcp-server/test_x402.js
+ create mode 100644 mcp-server/test_x402_out.txt
+ create mode 100644 mcp-server/usdg_probe_out.txt
+ create mode 100644 package-lock.json
+ create mode 100644 package.json
+ create mode 100644 public/app.js
+ create mode 100644 public/index.html
+ create mode 100644 public/styles.css
+ create mode 100644 scripts/api_check.js
+ create mode 100644 scripts/append_tm_css.ps1
+ create mode 100644 scripts/compile_anchor.js
+ create mode 100644 scripts/debug_pool.js
+ create mode 100644 scripts/deploy_anchor.js
+ create mode 100644 scripts/explore2.js
+ create mode 100644 scripts/explore3.js
+ create mode 100644 scripts/explore4.js
+ create mode 100644 scripts/explore_feeds.js
+ create mode 100644 scripts/explore_hoodchain.js
+ create mode 100644 scripts/index.js
+ create mode 100644 scripts/inspect_history.js
+ create mode 100644 scripts/inspect_token_info.js
+ create mode 100644 scripts/linkcheck.js
+ create mode 100644 scripts/patch_events_filter.ps1
+ create mode 100644 scripts/patch_mcp_pons.js
+ create mode 100644 scripts/patch_nav.ps1
+ create mode 100644 scripts/patch_near_note.js
+ create mode 100644 scripts/patch_pons_css.ps1
+ create mode 100644 scripts/patch_pons_front.js.ps1
+ create mode 100644 scripts/patch_section.ps1
+ create mode 100644 scripts/patch_tm.ps1
+ create mode 100644 scripts/patch_tm_chart.ps1
+ create mode 100644 scripts/pipeline_full.js
+ create mode 100644 scripts/pipeline_test.js
+ create mode 100644 scripts/pons_backfill.js
+ create mode 100644 scripts/pons_first.js
+ create mode 100644 scripts/pons_probe.js
+ create mode 100644 scripts/pons_test_small.js
+ create mode 100644 scripts/q_rhj.js
+ create mode 100644 scripts/q_wyfi.js
+ create mode 100644 scripts/rpc_diag.js
+ create mode 100644 scripts/rpc_v2.js
+ create mode 100644 scripts/rpc_verify.js
+ create mode 100644 scripts/rpc_verify2.js
+ create mode 100644 scripts/smoke_alerts.js
+ create mode 100644 scripts/test_alerts.js
+ create mode 100644 scripts/test_data.js
+ create mode 100644 scripts/test_mcp.js
+ create mode 100644 scripts/test_store.js
+ create mode 100644 scripts/test_verify.js
+ create mode 100644 scripts/upload_db.js
+ create mode 100644 scripts/verify_wyfi.js
+ create mode 100644 server.js
+b3e0ec2 feat: HoodScope — Stock Token premium intelligence (full PRD implementation)
