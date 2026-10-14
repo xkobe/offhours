@@ -36,8 +36,17 @@ rhj_assets.json
 upload_attachment.bin
 upload_check.bin
 git_setup.txt
+git_commit*.txt
+git_push_log*.txt
 health_check.txt
 status_check.txt
 domain_check*.txt
 scripts/*_out.txt
 server_err.txt
+*_check.txt
+*_test.txt
+*_run.txt
+proxy_*.txt
+gh_*.txt
+export_test.txt
+functions_test_run.txt
