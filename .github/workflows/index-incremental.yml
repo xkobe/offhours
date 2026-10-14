@@ -1,0 +1,49 @@
+# HoodScope — scheduled incremental indexer
+# Runs every 5 minutes on the default branch (public repos: free, no limits).
+# Pipeline: npm ci → node scripts/index.js → upload SQLite to R2/S3 (optional).
+name: index-incremental
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: index-incremental
+  cancel-in-progress: false
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Run incremental indexer
+        env:
+          RPC_URL: ${{ secrets.RPC_URL }}
+          HOODSCOPE_DB: data/hoodscope.db
+          PREMIUM_THRESHOLD: '2'
+        run: npm run index
+
+      - name: Upload SQLite to object storage (optional)
+        if: env.R2_ENDPOINT != ''
+        env:
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+        run: |
+          npm ci --omit=dev --prefix mcp-server 2>/dev/null || true
+          node scripts/upload_db.js || echo "::warning::DB upload skipped (configure R2_ENDPOINT + keys to enable)"

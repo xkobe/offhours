@@ -1,0 +1,35 @@
+﻿node.exe : npm warn deprecated @paulmillr/qr@0.2.1: The package is now available as "qr": npm install qr
+所在位置 行:1 字符: 1
++ & "C:\Users\小可爱\AppData\Local\Doubao\User Data\sandbox_runtime\bases\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn deprec... npm install qr:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+npm warn deprecated @metamask/sdk-analytics@0.0.5: No longer maintained, superseded by @metamask/connect-analytics
+npm warn deprecated @walletconnect/sign-client@2.21.1: Reliability and performance improvements. See: https://github.co
+m/WalletConnect/walletconnect-monorepo/releases
+npm warn deprecated @walletconnect/ethereum-provider@2.21.1: Reliability and performance improvements. See: https://git
+hub.com/WalletConnect/walletconnect-monorepo/releases
+npm warn deprecated @walletconnect/sign-client@2.21.0: Reliability and performance improvements. See: https://github.co
+m/WalletConnect/walletconnect-monorepo/releases
+npm warn deprecated @walletconnect/universal-provider@2.21.1: Reliability and performance improvements. See: https://gi
+thub.com/WalletConnect/walletconnect-monorepo/releases
+npm warn deprecated @walletconnect/sign-client@2.21.0: Reliability and performance improvements. See: https://github.co
+m/WalletConnect/walletconnect-monorepo/releases
+npm warn deprecated @walletconnect/sign-client@2.21.0: Reliability and performance improvements. See: https://github.co
+m/WalletConnect/walletconnect-monorepo/releases
+npm warn deprecated @walletconnect/universal-provider@2.21.0: Reliability and performance improvements. See: https://gi
+thub.com/WalletConnect/walletconnect-monorepo/releases
+npm warn deprecated @walletconnect/universal-provider@2.21.0: Reliability and performance improvements. See: https://gi
+thub.com/WalletConnect/walletconnect-monorepo/releases
+npm warn deprecated @walletconnect/universal-provider@2.21.0: Reliability and performance improvements. See: https://gi
+thub.com/WalletConnect/walletconnect-monorepo/releases
+npm warn deprecated @metamask/sdk-install-modal-web@0.32.1: No longer maintained, superseded by https://docs.metamask.i
+o/metamask-connect
+npm warn deprecated @metamask/sdk-communication-layer@0.33.1: No longer maintained, superseded by https://docs.metamask
+.io/metamask-connect
+
+added 450 packages in 5m
+
+108 packages are looking for funding
+  run `npm fund` for details

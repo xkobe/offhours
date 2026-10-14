@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Live Stock Token premium/discount screening on Robinhood Chain — Chainlink reference prices vs Uniswap V3 DEX prices, with on-chain evidence.">
+<title>HoodScope · Stock Token Premium Desk — Robinhood Chain</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F172A'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' fill='%23FFFFFF' text-anchor='middle'%3EHS%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page">
+
+  <!-- ===== ticker tape ===== -->
+  <div class="tape" id="tape" aria-label="Top premium movers ticker">
+    <div class="tape-track" id="tapeTrack"></div>
+  </div>
+
+  <!-- ===== topbar ===== -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">HOODSCOPE</div>
+      <div class="brand-sub">STOCK TOKEN PREMIUM DESK<br>ROBINHOOD CHAIN</div>
+    </div>
+    <div class="global-search">
+      <span class="gs-icon">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      </span>
+      <input id="globalSearch" type="search" placeholder="Search any stock token, ticker, or name…" autocomplete="off" aria-label="Search stock tokens">
+      <span class="gs-kbd">⌘K</span>
+    </div>
+    <div class="topbar-right">
+      <span class="chainline" id="chainline">chain 4663 · block —</span>
+      <span class="asof" id="asof">—</span>
+      <button class="btn" id="refreshBtn" type="button">Refresh</button>
+    </div>
+  </header>
+
+  <!-- ===== layout ===== -->
+  <div class="body-flex">
+
+    <!-- sidebar nav -->
+    <nav class="sidebar" id="sidenav" role="navigation" aria-label="Sections">
+      <div class="side-label">Desk</div>
+      <button class="nav-item active" data-view="market" type="button"><span class="ni-icon">▦</span> Market</button>
+      <button class="nav-item" data-view="watchlist" type="button"><span class="ni-icon">☆</span> Watchlist <span class="badge" id="badgeWatch">0</span></button>
+      <button class="nav-item" data-view="anomalies" type="button"><span class="ni-icon">⚠</span> Anomalies <span class="badge" id="badgeAnom">0</span></button>
+      <button class="nav-item" data-view="history" type="button"><span class="ni-icon">⏱</span> Time Machine</button>
+      <button class="nav-item" data-view="pons" type="button"><span class="ni-icon">▲</span> Pons Launchpad</button>
+      <button class="nav-item" data-view="verify" type="button"><span class="ni-icon">✓</span> Verify</button>
+      <div class="side-label">Quick actions</div>
+      <div class="side-foot">
+        <button class="task-btn" data-view="anomalies" type="button">View today's anomalies</button>
+        <button class="task-btn" data-view="watchlist" type="button">Track a token</button>
+        <button class="task-btn" data-view="verify" type="button">Verify a report hash</button>
+        <div class="side-chain" id="sideChain">chain 4663<br>34 feeds · 438 pools<br>SQLite persisted</div>
+      </div>
+    </nav>
+
+    <!-- main -->
+    <main class="main">
+
+      <!-- ===== VIEW · MARKET ===== -->
+      <section class="view active" id="viewMarket">
+        <div class="since-line" id="sinceLine">—</div>
+
+        <!-- KPI strip -->
+        <div class="kpis">
+          <div class="kpi">
+            <div class="kpi-num" id="kTotal">—</div>
+            <div class="kpi-label">Stock Tokens Monitored</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-num" id="kRef">—</div>
+            <div class="kpi-label">Reference Price (Chainlink + rhj)</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-num" id="kDex">—</div>
+            <div class="kpi-label">With DEX Price</div>
+            <div class="kpi-delta" id="deltaDex">—</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-num" id="kAnomaly">—</div>
+            <div class="kpi-label">Premium Anomalies</div>
+            <div class="kpi-delta" id="deltaAnom">—</div>
+          </div>
+          <div class="kpi kpi-status">
+            <div class="status-pill" id="statusPill">—</div>
+            <div class="kpi-label" id="statusDetail">—</div>
+          </div>
+        </div>
+
+        <!-- charts -->
+        <div class="charts">
+          <div class="chart-card">
+            <div class="chart-head">
+              <div class="chart-title">Premium / Discount Distribution <span class="chart-sub">all tokens with a DEX price · 1% buckets</span></div>
+            </div>
+            <div id="chartDist" class="chart-box skel-box"></div>
+            <div class="chart-note">Green = premium, red = discount; extremes folded into edge buckets</div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-head">
+              <div class="chart-title">Top 12 Movers <span class="chart-sub">by |premium|</span></div>
+              <div class="chart-actions">
+                <button class="btn-mini" id="apiBtn" type="button" title="Copy API endpoint">Copy API</button>
+              </div>
+            </div>
+            <div id="chartMovers" class="chart-box skel-box"></div>
+            <div class="chart-note">Bar length = deviation from reference price; same source as the table below</div>
+          </div>
+        </div>
+
+        <!-- filters -->
+        <div class="controls">
+          <div class="ctrl-group">
+            <span class="ctrl-label">Sort</span>
+            <select id="sortSelect">
+              <option value="premDesc">Premium high → low</option>
+              <option value="premAsc">Discount deep → shallow</option>
+              <option value="tvlDesc">Liquidity high → low</option>
+              <option value="priceDesc">Price high → low</option>
+              <option value="symbol">Symbol A–Z</option>
+            </select>
+          </div>
+          <div class="ctrl-group">
+            <span class="ctrl-label">Fill size</span>
+            <select id="fillSelect" title="Execution premium is estimated at this USD fill size">
+              <option value="100">$100</option>
+              <option value="1000" selected>$1k</option>
+              <option value="10000">$10k</option>
+            </select>
+          </div>
+          <div class="ctrl-group">
+            <span class="ctrl-label">|Premium| threshold</span>
+            <div class="chips" id="thresholdChips">
+              <button class="chip active" data-th="0" type="button">All</button>
+              <button class="chip" data-th="1" type="button">&gt;1%</button>
+              <button class="chip" data-th="2" type="button">&gt;2%</button>
+              <button class="chip" data-th="5" type="button">&gt;5%</button>
+              <button class="chip" data-th="10" type="button">&gt;10%</button>
+            </div>
+          </div>
+          <div class="ctrl-group">
+            <label class="check"><input type="checkbox" id="onlyAnomaly"> Anomalies only</label>
+            <label class="check"><input type="checkbox" id="onlyDex"> DEX only</label>
+          </div>
+          <div class="ctrl-count" id="resultCount">—</div>
+          <button class="btn-mini" id="csvBtn" type="button" title="Download the current filtered table as CSV">Download CSV</button>
+        </div>
+
+        <!-- table -->
+        <div class="table-wrap">
+          <table class="tbl" id="tokenTable">
+            <thead>
+              <tr>
+                <th class="c-rank">#</th>
+                <th class="c-sym">Token</th>
+                <th class="c-ref">Reference</th>
+                <th class="c-dex">DEX Price</th>
+                <th class="c-prem">Premium</th>
+                <th class="c-pool">Main Pool · TVL</th>
+                <th class="c-mult">Multiplier</th>
+                <th class="c-ev">Evidence</th>
+              </tr>
+            </thead>
+            <tbody id="tokenBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===== VIEW · WATCHLIST ===== -->
+      <section class="view" id="viewWatchlist">
+        <div class="view-head">
+          <div class="view-title">Watchlist</div>
+          <div class="view-sub">Tokens you starred with ☆ in the Market view — stored locally in this browser.</div>
+        </div>
+        <div class="watch-grid" id="watchGrid"></div>
+        <div class="empty-state" id="watchEmpty" hidden>
+          <div class="empty-title">No tokens tracked yet</div>
+          <div class="empty-body">Go to <b>Market</b> and click the ☆ next to any symbol — or open a token's evidence panel and hit “Track”. Your list persists across visits.</div>
+        </div>
+      </section>
+
+      <!-- ===== VIEW · ANOMALIES ===== -->
+      <section class="view" id="viewAnomalies">
+        <div class="view-head">
+          <div class="view-title">Today's Premium Anomalies</div>
+          <div class="view-sub">Anomaly = |premium| &gt; 2% while the US market is closed, or &gt; 10% at any time.</div>
+        </div>
+        <div class="anom-list" id="anomList"></div>
+        <div class="empty-state" id="anomEmpty" hidden>
+          <div class="empty-title">No anomalies right now</div>
+          <div class="empty-body">Nothing is trading far from its frozen reference price. Anomalies typically appear when the US market closes and DEX prices keep moving.</div>
+        </div>
+        <div class="coverage-box" id="coverageBox"></div>
+      </section>
+
+      <!-- ===== VIEW · TIME MACHINE ===== -->
+      <section class="view" id="viewHistory">
+        <div class="view-head">
+          <div class="view-title">Time Machine</div>
+          <div class="view-sub">Replay any stock token through the snapshots HoodScope has persisted (every ~5 min). Below: premium events this token triggered — peak, duration, convergence.</div>
+        </div>
+        <div class="tm-controls">
+          <input id="tmSymbol" type="text" placeholder="Symbol, e.g. NVDA" spellcheck="false" autocomplete="off" list="tmSymbols">
+          <datalist id="tmSymbols"></datalist>
+          <button class="btn" id="tmLoad" type="button">Load</button>
+          <button class="btn" id="tmPlay" type="button" disabled>▶ Play</button>
+          <input type="range" id="tmSlider" min="0" max="1" step="1" value="0" disabled>
+          <span class="tm-time" id="tmTime">—</span>
+        </div>
+        <div class="tm-readout" id="tmReadout" hidden></div>
+        <div class="tm-chart" id="tmChart"></div>
+        <div class="tm-stats" id="tmStats"></div>
+        <div class="tm-events" id="tmEvents"></div>
+        <div class="empty-state" id="tmEmpty">
+          <div class="empty-title">Pick a symbol to replay</div>
+          <div class="empty-body">Load a token to see its premium path across persisted snapshots, plus every threshold event it triggered.</div>
+        </div>
+      </section>
+
+      <!-- ===== VIEW · PONS LAUNCHPAD ===== -->
+      <section class="view" id="viewPons">
+        <div class="view-head">
+          <div class="view-title">Pons Launchpad Monitor</div>
+          <div class="view-sub">Graduation tracking for Robinhood Chain's dominant launchpad — V2 bonding curves graduate at the on-chain threshold into permanently locked Uniswap v4 pools. Data indexed directly from the Pons V2 factory.</div>
+        </div>
+        <div class="pons-toolbar">
+          <div class="ctrl-group">
+            <span class="ctrl-label">Bucket</span>
+            <div class="chips" id="ponsBucketChips">
+              <button class="chip active" data-bucket="day" type="button">Daily</button>
+              <button class="chip" data-bucket="week" type="button">Weekly</button>
+              <button class="chip" data-bucket="month" type="button">Monthly</button>
+            </div>
+          </div>
+          <div class="pons-note" id="ponsNote">—</div>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><div class="kpi-num" id="ponsTotal">—</div><div class="kpi-label">Launches (V2)</div></div>
+          <div class="kpi"><div class="kpi-num" id="ponsGrad">—</div><div class="kpi-label">Graduated</div></div>
+          <div class="kpi"><div class="kpi-num" id="ponsRate">—</div><div class="kpi-label">Graduation Rate</div></div>
+          <div class="kpi"><div class="kpi-num" id="ponsStock">—</div><div class="kpi-label">Stock/ETF-Quoted</div></div>
+        </div>
+        <div class="charts">
+          <div class="chart-card">
+            <div class="chart-head">
+              <div class="chart-title">Launches vs Graduations <span class="chart-sub">Pons V2 factory · on-chain events</span></div>
+            </div>
+            <div id="ponsChart" class="chart-box skel-box"></div>
+          </div>
+        </div>
+        <div class="pons-grid">
+          <div class="pons-card">
+            <div class="pons-card-h">Near-Graduation Watch <span class="pons-card-sub">ungraduated curves by live progress (14-day window)</span></div>
+            <div id="ponsNear" class="pons-body"><div class="empty-body">Loading…</div></div>
+          </div>
+          <div class="pons-card">
+            <div class="pons-card-h">Stock / ETF-Quoted Launches <span class="pons-card-sub">RWA × launchpad — pair token is a tokenized stock or ETF</span></div>
+            <div id="ponsRwa" class="pons-body"><div class="empty-body">Loading…</div></div>
+          </div>
+        </div>
+        <div class="coverage-box" id="ponsCoverage"></div>
+      </section>
+
+      <!-- ===== VIEW · VERIFY ===== -->
+      <section class="view" id="viewVerify">
+        <div class="view-head">
+          <div class="view-title">Verify a Report</div>
+          <div class="view-sub">Paste the SHA-256 hash returned with any analysis report. HoodScope recomputes the CID fingerprint and checks the on-chain anchor registry on Robinhood Chain.</div>
+        </div>
+        <div class="verify-form">
+          <input id="verifyInput" type="text" placeholder="64-character SHA-256 hash…" spellcheck="false" autocomplete="off">
+          <button class="btn" id="verifyBtn" type="button">Verify</button>
+        </div>
+        <div class="verify-result" id="verifyResult" hidden></div>
+      </section>
+
+      <!-- ===== footer ===== -->
+      <footer class="foot">
+        <div class="foot-grid">
+          <div class="foot-col foot-brand">
+            <div class="foot-logo">HOODSCOPE</div>
+            <p class="foot-tag">Stock Token premium intelligence on Robinhood Chain — reference prices vs live DEX prices, every data point verifiable on-chain.</p>
+            <div class="foot-chain">chain 4663 · mainnet · MIT licensed · open source</div>
+          </div>
+          <div class="foot-col">
+            <div class="foot-h">Product</div>
+            <a href="#market" data-jump="market" class="foot-link">Market</a>
+            <a href="#watchlist" data-jump="watchlist" class="foot-link">Watchlist</a>
+            <a href="#anomalies" data-jump="anomalies" class="foot-link">Anomalies</a>
+            <a href="#verify" data-jump="verify" class="foot-link">Verify</a>
+            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="foot-link">MCP Server</a>
+          </div>
+          <div class="foot-col">
+            <div class="foot-h">Developers</div>
+            <a href="javascript:void(0)" class="foot-link" onclick="document.getElementById('apiBtn').click()">API endpoint</a>
+            <a href="javascript:void(0)" class="foot-link" onclick="document.getElementById('csvBtn').click()">Download CSV</a>
+            <a href="https://robinscanner.com" target="_blank" rel="noopener noreferrer" class="foot-link">Robinscanner explorer</a>
+            <a href="https://docs.robinhood.com/chain" target="_blank" rel="noopener noreferrer" class="foot-link">Robinhood Chain docs</a>
+          </div>
+          <div class="foot-col">
+            <div class="foot-h">Legal</div>
+            <span class="foot-link dim">Privacy</span>
+            <span class="foot-link dim">Terms</span>
+            <span class="foot-link dim">Compliance</span>
+            <span class="foot-link dim">Contact</span>
+          </div>
+        </div>
+        <div class="foot-bottom">
+          <span>© 2026 HoodScope · Robinhood Chain Stock Token analytics</span>
+          <span class="foot-note">Data presentation only — not investment advice. Premium gaps are not promised to converge. Markets referenced: NYSE hours, ET Mon–Fri 9:30–16:00.</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<!-- ===== evidence drawer ===== -->
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <div>
+      <div class="drawer-sym" id="dSym">—</div>
+      <div class="drawer-name" id="dName">—</div>
+    </div>
+    <div class="drawer-head-actions">
+      <button class="icon-btn" id="dWatchBtn" type="button" aria-label="Toggle watchlist" title="Track / untrack">☆</button>
+      <button class="icon-btn" id="drawerClose" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</aside>
+<div class="drawer-mask" id="drawerMask"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js" integrity="sha384-pPi0zxBAoDu6+JXW/C68UZLvBUUtU+7zonhif43rqj7pxsGyqyqzcian2Rj37Rss" crossorigin="anonymous"></script>
+<script src="app.js"></script>
+</body>
+</html>

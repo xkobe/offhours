@@ -1,0 +1,45 @@
+{
+  "name": "hoodscope-mcp-server",
+  "version": "0.2.0",
+  "description": "HoodScope MCP Server — pay-per-call Stock Token premium intelligence on Robinhood Chain: premium_snapshot, stock_token_analysis, premium_history, pons_graduation_stats, pons_graduation_watch, evidence_verify. x402/USDG settlement, no API key.",
+  "main": "index.js",
+  "bin": {
+    "hoodscope-mcp": "index.js"
+  },
+  "keywords": [
+    "mcp",
+    "robinhood-chain",
+    "stock-token",
+    "rwa",
+    "premium",
+    "x402",
+    "eip-3009",
+    "defi",
+    "ai-agent",
+    "model-context-protocol"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoodscope/hoodscope.git"
+  },
+  "files": [
+    "index.js",
+    "lib/",
+    "README.md"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "mcp": "node index.js",
+    "test": "node ../scripts/test_mcp.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.0",
+    "@x402/core": "^2.28.0",
+    "@x402/evm": "^2.28.0",
+    "viem": "^2.48.0",
+    "x402": "^1.2.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

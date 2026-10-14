@@ -1,0 +1,15 @@
+premium_snapshot       ok | price $0.01 | amount 10000 | payer 0xe239cdc5fb | nonce — | sig 0xc047b496d6b9f3cf… | settlement dev_only
+  -> X402 paid $0.01 (USDG @ eip155:4663) · payer 0xe239cdc5… · → 0xe239cdc5… · nonce — · mode dev · settlement dev_only · (dev signer — no funds moved; set X402_PAYEE + X402_SIGNER_PRIVATE_KEY to go live)
+stock_token_analysis   ok | price $0.05 | amount 50000 | payer 0xe239cdc5fb | nonce — | sig 0xdd4e786f8384daf9… | settlement dev_only
+  -> X402 paid $0.05 (USDG @ eip155:4663) · payer 0xe239cdc5… · → 0xe239cdc5… · nonce — · mode dev · settlement dev_only · (dev signer — no funds moved; set X402_PAYEE + X402_SIGNER_PRIVATE_KEY to go live)
+premium_history        ok | price $0.03 | amount 30000 | payer 0xe239cdc5fb | nonce — | sig 0xdc7f3118951979dd… | settlement dev_only
+  -> X402 paid $0.03 (USDG @ eip155:4663) · payer 0xe239cdc5… · → 0xe239cdc5… · nonce — · mode dev · settlement dev_only · (dev signer — no funds moved; set X402_PAYEE + X402_SIGNER_PRIVATE_KEY to go live)
+pons_graduation_stats  ok | price $0.02 | amount 20000 | payer 0xe239cdc5fb | nonce — | sig 0x39ec59894d809ee7… | settlement dev_only
+  -> X402 paid $0.02 (USDG @ eip155:4663) · payer 0xe239cdc5… · → 0xe239cdc5… · nonce — · mode dev · settlement dev_only · (dev signer — no funds moved; set X402_PAYEE + X402_SIGNER_PRIVATE_KEY to go live)
+pons_graduation_watch  ok | price $0.01 | amount 10000 | payer 0xe239cdc5fb | nonce — | sig 0x4988e0f0eae4ee09… | settlement dev_only
+  -> X402 paid $0.01 (USDG @ eip155:4663) · payer 0xe239cdc5… · → 0xe239cdc5… · nonce — · mode dev · settlement dev_only · (dev signer — no funds moved; set X402_PAYEE + X402_SIGNER_PRIVATE_KEY to go live)
+evidence_verify        ok | price $0.01 | amount 10000 | payer 0xe239cdc5fb | nonce — | sig 0x366b1aa92ca5440b… | settlement dev_only
+  -> X402 paid $0.01 (USDG @ eip155:4663) · payer 0xe239cdc5… · → 0xe239cdc5… · nonce — · mode dev · settlement dev_only · (dev signer — no funds moved; set X402_PAYEE + X402_SIGNER_PRIVATE_KEY to go live)
+
+PRICING: {"premium_snapshot":0.01,"stock_token_analysis":0.05,"premium_history":0.03,"pons_graduation_stats":0.02,"pons_graduation_watch":0.01,"evidence_verify":0.01}
+IS_LIVE: false PAYEE: 0xe239cdc5fb…

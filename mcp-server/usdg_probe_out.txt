@@ -1,0 +1,7 @@
+name: Global Dollar
+version: REVERT/ERR The contract function "version" reverted with the following signature:
+0x800ab12c
+symbol: USDG
+decimals: 6
+eip712Domain: REVERT/ERR The contract function "eip712Domain" reverted with the following signature:
+0x800ab12c

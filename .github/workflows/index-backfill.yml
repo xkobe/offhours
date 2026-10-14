@@ -1,0 +1,52 @@
+# HoodScope — one-shot historical Pons backfill (manual / on-demand).
+# Resumable: reads pons_meta.backfill_last from data/pons.db, so it can be
+# re-run until the whole range is indexed. Use larger PONS_CHUNK for speed,
+# smaller for flaky public RPCs.
+name: index-backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      chunk:
+        description: 'eth_getLogs chunk size (blocks per call)'
+        required: false
+        default: '20000'
+
+permissions:
+  contents: read
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Download previous DB (optional)
+        env:
+          DB_DOWNLOAD_URL: ${{ secrets.DB_DOWNLOAD_URL }}
+        run: |
+          if [ -n "$DB_DOWNLOAD_URL" ]; then
+            curl -fsSL "$DB_DOWNLOAD_URL" -o data/pons.db || echo "::warning::no previous DB — starting fresh"
+          fi
+
+      - name: Run backfill
+        env:
+          RPC_URL: ${{ secrets.RPC_URL }}
+          PONS_CHUNK: ${{ github.event.inputs.chunk }}
+          PONS_DB: data/pons.db
+        run: node scripts/pons_backfill.js
+
+      - name: Upload DB (optional)
+        env:
+          DB_UPLOAD_URL: ${{ secrets.DB_UPLOAD_URL }}
+          HOODSCOPE_DB: data/pons.db
+        run: node scripts/upload_db.js

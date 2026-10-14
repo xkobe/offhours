@@ -1,0 +1,28 @@
+{
+  "name": "hoodscope",
+  "version": "0.2.0",
+  "description": "Robinhood Chain Stock Token screening — data pipeline, SQLite history, verifiable reports, anchor registry",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "server": "node server.js",
+    "index": "node scripts/index.js",
+    "compile": "node scripts/compile_anchor.js",
+    "deploy:testnet": "node scripts/deploy_anchor.js",
+    "deploy:mainnet": "node scripts/deploy_anchor.js --chain=4663",
+    "test:store": "node scripts/test_store.js",
+    "test:verify": "node scripts/test_verify.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "hoodchain": "^0.1.1",
+    "hoodkit": "^0.1.1",
+    "viem": "^2.56.5"
+  },
+  "devDependencies": {
+    "solc": "^0.8.37"
+  }
+}
